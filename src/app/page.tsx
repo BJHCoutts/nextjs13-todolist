@@ -10,6 +10,12 @@ async function toggleTodo(id:string, complete:boolean) {
   await prisma.todo.update({ where: { id }, data: { complete } })
 }
 
+async function deleteTodo(id:string) {
+  "use server"
+
+  await prisma.todo.delete({where: {id}})
+}
+
 export default async function Home() {
 
   const todos = await getTodos()
@@ -26,7 +32,7 @@ export default async function Home() {
       >New</Link>
       <ul className="pl-4">
         {todos.map(({id, title, complete}:TTodoItem) => (
-          <TodoItem key={id} id={id} title={title} complete={complete} toggleTodo={toggleTodo}/>
+          <TodoItem key={id} id={id} title={title} complete={complete} toggleTodo={toggleTodo} deleteTodo={deleteTodo} />
         ))}
       </ul>
     </>
